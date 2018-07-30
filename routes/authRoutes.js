@@ -27,12 +27,12 @@ module.exports = app => {
 
   app.get('/api/logout', (req, res) => {
     req.logout(); // this function also automatically attached to req obj by passport. It takes the cookies that contains a userid and kills it
-    //res.send(req.user);
+    //res.send(req.user); is nothing, passport destroy req.user
     res.redirect('/');
   });
 
   app.get('/api/current_user', (req, res) => {
     /* res.send(req.user); */
-    res.send(req.user); // passport authomatically attaches user
+    res.send(req.user); // passport authomatically attaches user to req object
   });
 };

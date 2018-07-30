@@ -1,25 +1,28 @@
-const express = require('express');
-const passport = require('passport');
-const GoogleStrategy = require("passport-google-oauth20");
-const keys = require('./config/keys');
-// require("./services/passport"); // just to import the code
+const express = require("express");
+const mongoose = require("mongoose");
+const cookieSession = require("cookie-session");
+const passport = require("passport");
+const keys = require("./config/keys");
+require("./models/User"); // tell mongoose that we want to create a users collection
+require("./services/passport"); // just to import the code
+
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
 const app = express(); // creates new express application
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback2'
-    },
-    accessToken => {
-      console.log(accessToken);
-    }
-  )
+// to enable cookies in our application
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
+    keys: [keys.cookieKey]
+  })
 );
 
-require('./routes/authRoutes')(app);
+// telling passport to use cookies to manage autentification
+app.use(passport.initialize());
+app.use(passport.session());
+
+require("./routes/authRoutes")(app);
 
 const PORT = process.env.PORT || 5000; // PORT is a capital latter to tell the developers, they should do not change it
 

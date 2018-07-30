@@ -5,12 +5,21 @@
   "repository": "git@github.com:Tatibara/emaily.git",
   "author": "Tatiana Baradari <ttorgonskaya@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "8.11.3",
+    "yarn": "1.7.0"
+  },
   "scripts": {
     "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "server": "nodemon index.js",
+    "client": "yarn --cwd client start",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "dependencies": {
+    "cookie-session": "^2.0.0-beta.3",
+    "create-react-app": "^1.5.2",
     "express": "^4.16.3",
+    "mongoose": "^5.2.5",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0"
   },
