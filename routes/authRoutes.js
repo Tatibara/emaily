@@ -1,10 +1,11 @@
 const passport = require("passport");
 
 module.exports = app => {
+  // routehandlers :)
   app.get('/', (req, res) => {
     res.send({ hi: 'there' });
   });
-  // routehandlers :)
+  
   app.get(
     '/auth/google',
     passport.authenticate('google', {
@@ -13,13 +14,8 @@ module.exports = app => {
   );
 
   app.get(
-    '/auth/google/callback2',
-    passport.authenticate('google')
-  );
-
-  app.get(
     '/auth/google/callback',
-    passport.authenticate('google'),
+    passport.authenticate('google'), // is a middleware, it takes an incomming request, it further authenticate the user. it takes the code inside the url and goes and fetch users profile and it calls a callback in the googles strategy. when it finished it passes the request to the next middleware inside the flow
     (req, res) => {
       res.redirect('/surveys');
     }
