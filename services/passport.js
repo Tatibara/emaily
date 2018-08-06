@@ -16,7 +16,7 @@ passport.serializeUser((user, done) => {
   );
 });
 
-// tacke a tocken from a cookie (id) and get a user model
+// take a tocken from a cookie (id) and get a user model
 passport.deserializeUser((id, done) => {
   User.findById(id).then(user => {
     done(null, user); // authomatically attaches the user to req
